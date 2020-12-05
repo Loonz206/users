@@ -1,19 +1,34 @@
 const graphql = require("graphql");
 const axios = require("axios");
-const { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLSchema } = graphql;
+const {
+  GraphQLObjectType,
+  GraphQLInt,
+  GraphQLString,
+  GraphQLSchema,
+  GraphQLList,
+} = graphql;
 
+// fields needs the arrow func to stop defined/circular deps
 const CompanyType = new GraphQLObjectType({
   name: "Company",
-  fields: {
+  fields: () => ({
     id: { type: GraphQLString },
     name: { type: GraphQLString },
     description: { type: GraphQLString },
-  },
+    users: {
+      type: new GraphQLList(UserType),
+      resolve(parentValue, args) {
+        return axios
+          .get(`http://localhost:3000/companies/${parentValue.id}/users`)
+          .then((response) => response.data);
+      },
+    },
+  }),
 });
 
 const UserType = new GraphQLObjectType({
   name: "User",
-  fields: {
+  fields: () => ({
     id: { type: GraphQLString },
     firstName: { type: GraphQLString },
     age: { type: GraphQLInt },
@@ -26,14 +41,14 @@ const UserType = new GraphQLObjectType({
           .then((response) => response.data);
       },
     },
-  },
+  }),
 });
 
 // demonstrating connection to an outside server rather than static wiring.
 // adding syblings to make other connection queries for the RootQueryType
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
-  fields: {
+  fields: () => ({
     user: {
       type: UserType,
       args: { id: { type: GraphQLString } },
@@ -52,7 +67,7 @@ const RootQuery = new GraphQLObjectType({
           .then((response) => response.data);
       },
     },
-  },
+  }),
 });
 
 module.exports = new GraphQLSchema({ query: RootQuery });
