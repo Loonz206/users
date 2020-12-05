@@ -6,6 +6,7 @@ const {
   GraphQLString,
   GraphQLSchema,
   GraphQLList,
+  GraphQLNonNull,
 } = graphql;
 
 // fields needs the arrow func to stop defined/circular deps
@@ -70,7 +71,27 @@ const RootQuery = new GraphQLObjectType({
   }),
 });
 
-module.exports = new GraphQLSchema({ query: RootQuery });
+// GraphQLNonNull makes fields required when updating in this case data
+const mutation = new GraphQLObjectType({
+  name: "Mutation",
+  fields: {
+    addUser: {
+      type: UserType,
+      args: {
+        firstName: { type: new GraphQLNonNull(GraphQLString) },
+        age: { type: new GraphQLNonNull(GraphQLInt) },
+        companyId: { type: GraphQLString },
+      },
+      resolve(parentValue, { firstName, age }) {
+        return axios
+          .post(`http://localhost:3000/users`, { firstName, age })
+          .then((response) => response.data);
+      },
+    },
+  },
+});
+
+module.exports = new GraphQLSchema({ query: RootQuery, mutation });
 
 /*
 // can be reused within queries instead of repeating yourself..
