@@ -6,3 +6,19 @@
 # Express/GraphQL Course
 
 _Learning the bits about Express/GraphQL via a course_
+
+to get started
+
+`npm install`
+
+then
+
+`npm run dev`
+
+to create an running nodemon graphql instance and then open http://localhost:4000/graphql
+
+Open another tab in the terminal and then run
+
+`npm run json:server`
+
+to generate outside integration
