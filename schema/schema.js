@@ -1,12 +1,6 @@
 const graphql = require("graphql");
-const _ = require("lodash");
+const axios = require("axios");
 const { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLSchema } = graphql;
-
-const users = [
-  { id: "23", firstName: "Micheal", age: 57 },
-  { id: "42", firstName: "Jackie", age: 101 },
-  { id: "14", firstName: "DK", age: 22 },
-];
 
 const UserType = new GraphQLObjectType({
   name: "User",
@@ -17,6 +11,7 @@ const UserType = new GraphQLObjectType({
   },
 });
 
+// demonstrating connection to an outside server rather than static wiring.
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {
@@ -24,7 +19,9 @@ const RootQuery = new GraphQLObjectType({
       type: UserType,
       args: { id: { type: GraphQLString } },
       resolve(parentValue, args) {
-        return _.find(users, { id: args.id });
+        return axios
+          .get(`http://localhost:3000/users/${args.id}`)
+          .then((response) => response.data);
       },
     },
   },
