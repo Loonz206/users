@@ -71,3 +71,17 @@ const RootQuery = new GraphQLObjectType({
 });
 
 module.exports = new GraphQLSchema({ query: RootQuery });
+
+/*
+// can be reused within queries instead of repeating yourself..
+fragment companyDetails on Company {
+  id,
+  name,
+  description
+}
+
+then for example you can spread inside of the query
+company(id: "1"){
+  ...companyDetails
+}
+*/
