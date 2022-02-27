@@ -4,7 +4,8 @@
   "description": "express/graphql learnings",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": "npm-run-all --parallel json:server start",
+    "start": "nodemon server.js",
     "json:server": "json-server --watch db.json",
     "check-format": "npm run pretty -- --list-different",
     "commit": "npx git-cz",
@@ -25,6 +26,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.2.0",
     "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-security": "^1.4.0",
+    "eslint-plugin-sonarjs": "^0.12.0",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
     "graphql": "^15.4.0",
