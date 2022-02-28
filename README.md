@@ -3,6 +3,7 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![Build Status](https://travis-ci.com/Loonz206/hello-next.svg?branch=master)](https://travis-ci.com/Loonz206/users)
 [![Known Vulnerabilities](https://snyk.io/test/github/loonz206/users/badge.svg)](https://snyk.io/test/github/loonz206/users)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Loonz206_users&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Loonz206_users)
 
 # Express/GraphQL Course
 
