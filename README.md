@@ -19,6 +19,8 @@ then
 
 to create an running nodemon graphql instance and then open http://localhost:4000/graphql
 
+and to inspect the RESTFUL Json Server at http://localhost:3000/user or http://localhost:3000/companies
+
 ## Things to do
 
 Using the http://localhost:4000/graphql you can add a query a user by querying on the left panel
@@ -105,3 +107,25 @@ mutation {
 
 Alot of these tips follow the Restful Conventions
 For more read the schema/schema.js
+
+### Restful Conventions / Routing Examples
+
+_restful meaning readable methods that you can assert actions on_
+
+- /name POST Create a record
+- /name GET Fetch all records
+- /name/:id GET Fetch record with given id
+- /name/:id PUT Update details of user with id
+- /name/:id DELETE Delete user with id
+
+_things can get complicated the more deeper and nested as you go_
+
+- /users/23/posts POST Create a post associated with user 23
+- /users/23/posts GET Fetch all posts created by user 23
+- /users/23/posts/14 GET Fetch post 14 by user 23
+- /users/23/posts/15 PUT Update post 15 by user 23
+- /users/23/posts/18 DELETE Delete post 18 created by user 23
+
+### However these breakdown once we get into lots of http requests or super nested data
+
+Hence why using GraphQL perhaps can be a benefit
