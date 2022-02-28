@@ -6,7 +6,7 @@
 
 # Express/GraphQL Course
 
-_Learning the bits about Express/GraphQL via a course_
+_Learning the bits about Express/GraphQL via a course referencing a local json db with json-server_
 
 to get started
 
@@ -18,8 +18,89 @@ then
 
 to create an running nodemon graphql instance and then open http://localhost:4000/graphql
 
-Open another tab in the terminal and then run
+## Things to do
 
-`npm run json:server`
+Using the http://localhost:4000/graphql you can add a query a user by querying on the left panel
+In this case user with id of 23 is in the db.json ( you can remove or add fields on this person )
 
-to generate outside integration
+```
+{
+  user (id:"23") {
+    id
+    firstName
+    age
+    company {
+      name
+      description
+      id
+    }
+  }
+}
+```
+
+Or add users by leveraging a mutation
+
+```
+mutation {
+  addUser(firstName:"Bobby", age:58) {
+    id,
+    age,
+    firstName
+  }
+}
+```
+
+Or edit that user
+
+```
+mutation {
+  editUser(id: <id in db.json>, companyId: "2") {
+    id,
+    firstName,
+    age
+  }
+}
+```
+
+Or even delete that user
+
+```
+mutation {
+  deleteUser(id: <id in db.json>) {
+    id
+  }
+}
+```
+
+Same goes for adding companies
+
+```
+mutation {
+  addCompany(id: "idOfCompany", name: "nameOfCompany") {
+    id
+  }
+}
+```
+
+Editing companies
+
+```
+mutation {
+  editCompany(id: "idOfCompany", description: "making soccer balls") {
+    id
+  }
+}
+```
+
+Deleting company
+
+```
+mutation {
+  deleteCompany(id: "idOfCompany") {
+    id
+  }
+}
+```
+
+Alot of these tips follow the Restful Conventions
+For more read the schema/schema.js
