@@ -113,6 +113,43 @@ const mutation = new GraphQLObjectType({
           .then((response) => response.data);
       },
     },
+    addCompany: {
+      type: CompanyType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        description: { type: GraphQLString },
+      },
+      resolve(parentValue, { id, name }) {
+        return axios
+          .post(`http://localhost:3000/companies`, { id, name })
+          .then((response) => response.data);
+      },
+    },
+    editCompany: {
+      type: CompanyType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+        name: { type: GraphQLString },
+        description: { type: GraphQLString },
+      },
+      resolve(parentValue, args) {
+        return axios
+          .patch(`http://localhost:3000/companies/${args.id}`, args)
+          .then((response) => response.data);
+      },
+    },
+    deleteCompany: {
+      type: CompanyType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parentValue, { id }) {
+        return axios
+          .delete(`http://localhost:3000/companies/${id}`)
+          .then((response) => response.data);
+      },
+    },
   },
 });
 

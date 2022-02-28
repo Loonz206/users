@@ -21,7 +21,8 @@
     {
       "firstName": "Kat",
       "age": 29,
-      "id": "D5W9iA9"
+      "id": "D5W9iA9",
+      "companyId": "3"
     }
   ],
   "companies": [
@@ -34,6 +35,11 @@
       "id": "2",
       "name": "Google",
       "description": "search"
+    },
+    {
+      "id": "3",
+      "name": "facebook",
+      "description": "spying"
     }
   ]
 }
