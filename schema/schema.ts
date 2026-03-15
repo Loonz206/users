@@ -19,7 +19,11 @@ const CompanyType: GraphQLObjectType = new GraphQLObjectType({
       type: new GraphQLList(UserType),
       resolve(parentValue: { id: string }) {
         return axios
-          .get(`http://localhost:3000/companies/${parentValue.id}/users`)
+          .get(
+            `http://localhost:3000/companies/${encodeURIComponent(
+              parentValue.id
+            )}/users`
+          )
           .then((response) => response.data);
       },
     },
@@ -36,7 +40,11 @@ const UserType: GraphQLObjectType = new GraphQLObjectType({
       type: CompanyType,
       resolve(parentValue: { companyId: string }) {
         return axios
-          .get(`http://localhost:3000/companies/${parentValue.companyId}`)
+          .get(
+            `http://localhost:3000/companies/${encodeURIComponent(
+              parentValue.companyId
+            )}`
+          )
           .then((response) => response.data);
       },
     },
@@ -53,7 +61,7 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: GraphQLString } },
       resolve(parentValue: unknown, args: Record<string, string>) {
         return axios
-          .get(`http://localhost:3000/users/${args.id}`)
+          .get(`http://localhost:3000/users/${encodeURIComponent(args.id)}`)
           .then((response) => response.data);
       },
     },
@@ -62,7 +70,7 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: GraphQLString } },
       resolve(parentValue: unknown, args: Record<string, string>) {
         return axios
-          .get(`http://localhost:3000/companies/${args.id}`)
+          .get(`http://localhost:3000/companies/${encodeURIComponent(args.id)}`)
           .then((response) => response.data);
       },
     },
@@ -94,9 +102,12 @@ const mutation = new GraphQLObjectType({
       },
       resolve(parentValue: unknown, args: Record<string, string>) {
         return axios
-          .delete(`http://localhost:3000/users/${args.id}`, {
-            data: { id: args.id },
-          })
+          .delete(
+            `http://localhost:3000/users/${encodeURIComponent(args.id)}`,
+            {
+              data: { id: args.id },
+            }
+          )
           .then((response) => response.data);
       },
     },
@@ -110,7 +121,12 @@ const mutation = new GraphQLObjectType({
       },
       resolve(parentValue: unknown, args: Record<string, unknown>) {
         return axios
-          .patch(`http://localhost:3000/users/${args.id}`, args)
+          .patch(
+            `http://localhost:3000/users/${encodeURIComponent(
+              String(args.id)
+            )}`,
+            args
+          )
           .then((response) => response.data);
       },
     },
@@ -137,7 +153,12 @@ const mutation = new GraphQLObjectType({
       },
       resolve(parentValue: unknown, args: Record<string, unknown>) {
         return axios
-          .patch(`http://localhost:3000/companies/${args.id}`, args)
+          .patch(
+            `http://localhost:3000/companies/${encodeURIComponent(
+              String(args.id)
+            )}`,
+            args
+          )
           .then((response) => response.data);
       },
     },
@@ -148,7 +169,9 @@ const mutation = new GraphQLObjectType({
       },
       resolve(parentValue: unknown, args: Record<string, string>) {
         return axios
-          .delete(`http://localhost:3000/companies/${args.id}`)
+          .delete(
+            `http://localhost:3000/companies/${encodeURIComponent(args.id)}`
+          )
           .then((response) => response.data);
       },
     },
