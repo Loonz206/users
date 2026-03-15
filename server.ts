@@ -1,7 +1,7 @@
-const express = require("express");
-const { port } = require("./configs/config");
-const { graphqlHTTP } = require("express-graphql");
-const schema = require("./schema/schema");
+import express from "express";
+import { port } from "./configs/config";
+import { graphqlHTTP } from "express-graphql";
+import schema from "./schema/schema";
 
 const app = express();
 app.disable("x-powered-by");

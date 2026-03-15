@@ -6,11 +6,13 @@ module.exports = {
   },
   extends: [
     "standard",
+    "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
     "plugin:sonarjs/recommended",
     "plugin:security/recommended",
   ],
-  plugins: ["prettier", "sonarjs"],
+  plugins: ["prettier", "sonarjs", "@typescript-eslint"],
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 12,
     sourceType: "module",

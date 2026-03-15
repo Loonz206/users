@@ -2,23 +2,28 @@
   "name": "users",
   "version": "1.0.0",
   "description": "express/graphql learnings",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
+    "build": "tsc",
     "dev": "npm-run-all --parallel json:server start",
-    "start": "nodemon server.js",
+    "start": "nodemon --exec ts-node server.ts",
     "json:server": "json-server --watch db.json",
     "check-format": "npm run pretty -- --list-different",
     "commit": "npx git-cz",
     "format": "npm run pretty -- --write",
-    "lint": "eslint --ignore-path .gitignore --ext .js --ext .jsx .",
-    "pretty": "prettier --ignore-path .gitignore \"**/*.+(js|json|md)\"",
-    "validate": "npm-run-all --parallel check-format lint"
+    "lint": "eslint --ignore-path .gitignore --ext .ts .",
+    "pretty": "prettier --ignore-path .gitignore \"**/*.+(ts|json|md)\"",
+    "validate": "npm-run-all --parallel check-format lint build"
   },
   "author": "Lenny Peters <@loonz206>",
   "license": "ISC",
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.6.1",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard": "^17.1.0",
@@ -35,7 +40,9 @@
     "lint-staged": "^13.2.2",
     "lodash": "^4.17.21",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.8"
+    "prettier": "^2.8.8",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.5.4"
   },
   "dependencies": {
     "axios": "^1.7.7",
