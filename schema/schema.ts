@@ -8,6 +8,20 @@ import {
   GraphQLNonNull,
 } from "graphql";
 
+const SAFE_ID_PATTERN = /^[\w-]+$/;
+
+function validateId(id: string): string {
+  if (id == null || id === "") {
+    throw new Error("ID must not be empty");
+  }
+  if (!SAFE_ID_PATTERN.test(id)) {
+    throw new Error(
+      "ID must contain only alphanumeric characters, underscores, and hyphens"
+    );
+  }
+  return id;
+}
+
 // fields needs the arrow func to stop defined/circular deps
 const CompanyType: GraphQLObjectType = new GraphQLObjectType({
   name: "Company",
@@ -20,7 +34,7 @@ const CompanyType: GraphQLObjectType = new GraphQLObjectType({
       resolve(parentValue: { id: string }) {
         return axios
           .get(
-            `http://localhost:3000/companies/${encodeURIComponent(
+            `http://localhost:3000/companies/${validateId(
               parentValue.id
             )}/users`
           )
@@ -41,7 +55,7 @@ const UserType: GraphQLObjectType = new GraphQLObjectType({
       resolve(parentValue: { companyId: string }) {
         return axios
           .get(
-            `http://localhost:3000/companies/${encodeURIComponent(
+            `http://localhost:3000/companies/${validateId(
               parentValue.companyId
             )}`
           )
@@ -61,7 +75,7 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: GraphQLString } },
       resolve(parentValue: unknown, args: Record<string, string>) {
         return axios
-          .get(`http://localhost:3000/users/${encodeURIComponent(args.id)}`)
+          .get(`http://localhost:3000/users/${validateId(args.id)}`)
           .then((response) => response.data);
       },
     },
@@ -70,7 +84,7 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: GraphQLString } },
       resolve(parentValue: unknown, args: Record<string, string>) {
         return axios
-          .get(`http://localhost:3000/companies/${encodeURIComponent(args.id)}`)
+          .get(`http://localhost:3000/companies/${validateId(args.id)}`)
           .then((response) => response.data);
       },
     },
@@ -102,12 +116,9 @@ const mutation = new GraphQLObjectType({
       },
       resolve(parentValue: unknown, args: Record<string, string>) {
         return axios
-          .delete(
-            `http://localhost:3000/users/${encodeURIComponent(args.id)}`,
-            {
-              data: { id: args.id },
-            }
-          )
+          .delete(`http://localhost:3000/users/${validateId(args.id)}`, {
+            data: { id: args.id },
+          })
           .then((response) => response.data);
       },
     },
@@ -122,9 +133,7 @@ const mutation = new GraphQLObjectType({
       resolve(parentValue: unknown, args: Record<string, unknown>) {
         return axios
           .patch(
-            `http://localhost:3000/users/${encodeURIComponent(
-              String(args.id)
-            )}`,
+            `http://localhost:3000/users/${validateId(String(args.id))}`,
             args
           )
           .then((response) => response.data);
@@ -154,9 +163,7 @@ const mutation = new GraphQLObjectType({
       resolve(parentValue: unknown, args: Record<string, unknown>) {
         return axios
           .patch(
-            `http://localhost:3000/companies/${encodeURIComponent(
-              String(args.id)
-            )}`,
+            `http://localhost:3000/companies/${validateId(String(args.id))}`,
             args
           )
           .then((response) => response.data);
@@ -169,9 +176,7 @@ const mutation = new GraphQLObjectType({
       },
       resolve(parentValue: unknown, args: Record<string, string>) {
         return axios
-          .delete(
-            `http://localhost:3000/companies/${encodeURIComponent(args.id)}`
-          )
+          .delete(`http://localhost:3000/companies/${validateId(args.id)}`)
           .then((response) => response.data);
       },
     },
