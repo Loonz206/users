@@ -131,11 +131,13 @@ const mutation = new GraphQLObjectType({
         companyId: { type: GraphQLString },
       },
       resolve(parentValue: unknown, args: Record<string, unknown>) {
+        const { id, firstName, age, companyId } = args;
         return axios
-          .patch(
-            `http://localhost:3000/users/${validateId(String(args.id))}`,
-            args
-          )
+          .patch(`http://localhost:3000/users/${validateId(String(id))}`, {
+            firstName,
+            age,
+            companyId,
+          })
           .then((response) => response.data);
       },
     },
@@ -161,11 +163,12 @@ const mutation = new GraphQLObjectType({
         description: { type: GraphQLString },
       },
       resolve(parentValue: unknown, args: Record<string, unknown>) {
+        const { id, name, description } = args;
         return axios
-          .patch(
-            `http://localhost:3000/companies/${validateId(String(args.id))}`,
-            args
-          )
+          .patch(`http://localhost:3000/companies/${validateId(String(id))}`, {
+            name,
+            description,
+          })
           .then((response) => response.data);
       },
     },
